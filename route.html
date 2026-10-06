@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thymio RGB Meta-Sensor Track</title>
+    <style>
+        /* Resetta i margini per occupare tutto lo schermo */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000000; /* Sfondo nero puro */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Stile del pannello di controllo sovrapposto */
+        #ui-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid #FFFFFF;
+            padding: 20px;
+            color: #FFFFFF;
+            border-radius: 10px;
+            z-index: 10;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+        }
+
+        #ui-panel h1 {
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+            color: #00FF00;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Pallini colorati per la legenda */
+        .dot {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
+            border: 1px solid white;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .btn-fullscreen {
+            background-color: #00FF00;
+            color: #000000;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn-fullscreen:hover {
+            background-color: #00CC00;
+        }
+
+        /* L'elemento SVG per disegnare forme con bordi matematicamente perfetti */
+        svg {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pannello di controllo -->
+    <div id="ui-panel">
+        <h1>Thymio Demo Track</h1>
+        <ul>
+            <li><span class="dot" style="background-color: #00FF00;"></span> <strong>Verde:</strong> Marcia (Percorso)</li>
+            <li><span class="dot" style="background-color: #0000FF;"></span> <strong>Blu:</strong> Ruota a destra (Muro)</li>
+            <li><span class="dot" style="background-color: #FF0000;"></span> <strong>Rosso:</strong> Frena (Traguardo)</li>
+            <li><span class="dot" style="background-color: #000000;"></span> <strong>Nero:</strong> Stop di Emergenza</li>
+        </ul>
+        <button class="btn-fullscreen" onclick="avviaDemo()">Avvia a Schermo Intero</button>
+        <p style="font-size: 0.8rem; text-align: center; margin-top: 10px; color: #AAAAAA;">Premi ESC per uscire e far riapparire questo menu.</p>
+    </div>
+
+    <!-- 
+      Disegno vettoriale del tracciato.
+      L'attributo shape-rendering="crispEdges" è FONDAMENTALE perché disabilita l'anti-aliasing,
+      garantendo che non ci siano pixel sfumati (es. verdognoli-bluastri) tra due colori confinanti. 
+      L'M5Stack leggerà sempre e solo RGB puri.
+    -->
+    <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+        <!-- 1. Muro Esterno Blu (che lo fa rimbalzare verso l'interno) -->
+        <rect x="2%" y="2%" width="96%" height="96%" fill="#0000FF" />
+        
+        <!-- 2. Pista Verde (l'anello esterno dove marcia dritto) -->
+        <rect x="7%" y="7%" width="86%" height="86%" fill="#00FF00" />
+        
+        <!-- 3. Isola Interna Blu (che lo fa rimbalzare verso l'esterno) -->
+        <rect x="25%" y="25%" width="50%" height="50%" fill="#0000FF" />
+
+        <!-- 4. Area Traguardo Rossa (Lo costringe a fermarsi) -->
+        <!-- Messa in basso a sinistra nel circuito -->
+        <rect x="7%" y="75%" width="18%" height="18%" fill="#FF0000" />
+        
+        <!-- 5. Ostacolo dinamico Blu per "rompere" il rettangolo -->
+        <rect x="60%" y="7%" width="10%" height="18%" fill="#0000FF" />
+    </svg>
+
+    <script>
+        const uiPanel = document.getElementById('ui-panel');
+
+        function avviaDemo() {
+            // Richiede lo schermo intero
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    // Nasconde l'interfaccia utente così il robot non vede colori sfalsati dal menu
+                    uiPanel.style.display = 'none';
+                }).catch(err => {
+                    alert(`Errore nell'avvio dello schermo intero: ${err.message}`);
+                });
+            }
+        }
+
+        // Ascolta l'evento di uscita dallo schermo intero (es. pressione di ESC) per rimettere il menu
+        document.addEventListener('fullscreenchange', (event) => {
+            if (!document.fullscreenElement) {
+                uiPanel.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>
