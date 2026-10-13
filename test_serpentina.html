@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>ESPThy - Stress Test Track</title>
+    <style>
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            background-color: #0000FF;
+            font-family: Arial, sans-serif;
+        }
+        svg { 
+            width: 100vw; 
+            height: 100vh; 
+            display: block; 
+        }
+        #btn-fullscreen {
+            position: absolute; 
+            top: 20px; 
+            left: 20px;
+            padding: 15px 25px; 
+            font-size: 18px; 
+            font-weight: bold;
+            cursor: pointer;
+            background: #FFFFFF; 
+            color: #000000;
+            border: 2px solid #000000; 
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="btn-fullscreen">Avvia a Schermo Intero</button>
+
+    <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet">
+        
+        <rect width="1920" height="1080" fill="#0000FF" />
+        
+        <path d="M 300 300 
+                 L 1600 300 
+                 L 1600 900 
+                 L 1100 900 
+                 L 1100 600 
+                 L 800 600 
+                 L 800 900 
+                 L 300 900 
+                 Z" 
+              stroke="#00FF00" 
+              stroke-width="180" 
+              fill="none" 
+              stroke-linejoin="miter" 
+              stroke-linecap="square"/>
+              
+    </svg>
+
+    <script>
+        const btn = document.getElementById('btn-fullscreen');
+        btn.addEventListener('click', function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert(`Errore nell'avvio dello schermo intero: ${err.message}`);
+                });
+                btn.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('fullscreenchange', (event) => {
+            if (!document.fullscreenElement) {
+                btn.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
