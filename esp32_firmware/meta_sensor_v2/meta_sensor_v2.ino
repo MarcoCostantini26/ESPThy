@@ -18,7 +18,7 @@ void setup() {
   pinMode(DEBUG_LED, OUTPUT); 
   
   if (tcs.begin()) {
-    Serial.println("RGB Meta-Sensor initialized (Fast Mode)!");
+    Serial.println("RGB Meta-Sensor initialized!");
   } else {
     Serial.println("Sensor not found. Check connections.");
     while (1);

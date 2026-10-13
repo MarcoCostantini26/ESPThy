@@ -8,27 +8,27 @@
 <!--node Dispositivo seriale USB-->
 <node name="Dispositivo seriale USB" nodeId="{3e20a056-7981-4dfd-9c0b-dde67f8c18ba}"><![CDATA[onevent rc5
 if rc5.command == 1 then
-    # RED
+    # RED -> RIGHT
     call leds.top(32, 0, 0)
-    motor.left.target = 0
-    motor.right.target = 0
+    motor.left.target = 80
+    motor.right.target = -80
 elseif rc5.command == 2 then
-    # GREEN
+    # GREEN 
     call leds.top(0, 32, 0)
     motor.left.target = 80
     motor.right.target = 80
 elseif rc5.command == 3 then
-    # BLUE
+    # BLUE -> LEFT
     call leds.top(0, 0, 32)
-    motor.left.target = 80
-    motor.right.target = -80
+    motor.left.target = -80
+    motor.right.target = 80
 elseif rc5.command == 5 then
-    # WHITE
+    # WHITE -> BACK
     call leds.top(32, 32, 32)
     motor.left.target = -150
     motor.right.target = -150
 elseif rc5.command == 4 then
-    # BLACK 
+    # BLACK -> STOP
     call leds.top(0, 0, 0)
     motor.left.target = 0
     motor.right.target = 0
