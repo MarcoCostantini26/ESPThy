@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>ESPThy - Tracciato Multi-Colore Semantico</title>
+    <style>
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            background-color: #FF0000; 
+            font-family: Arial, sans-serif;
+        }
+        svg { 
+            width: 100vw; 
+            height: 100vh; 
+            display: block; 
+        }
+        #controls {
+            position: absolute; 
+            top: 20px; 
+            left: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            padding: 12px 20px; 
+            font-size: 16px; 
+            font-weight: bold;
+            cursor: pointer;
+            background: #FFFFFF; 
+            color: #000000;
+            border: 2px solid #000000; 
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        .btn:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <button id="btn-fullscreen" class="btn">Avvia a Schermo Intero</button>
+        <button id="btn-magenta" class="btn">Mostra Traguardo</button>
+    </div>
+
+    <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet">
+
+        <path d="M 300 300 
+                 L 1600 300 
+                 L 1600 900 
+                 L 1150 900 
+                 L 1150 700 
+                 L 750 700 
+                 L 750 900 
+                 L 300 900 
+                 Z" 
+              stroke="#00FF00" 
+              stroke-width="220" 
+              fill="#0000FF" 
+              stroke-linejoin="miter" 
+              stroke-linecap="square"/>
+
+        <line x1="550" y1="300" x2="1200" y2="300" 
+              stroke="#00FFFF" stroke-width="220" stroke-linecap="butt" />
+
+        <line x1="1200" y1="300" x2="1490" y2="300" 
+              stroke="#FFFF00" stroke-width="220" stroke-linecap="butt" />
+        
+        <line x1="1600" y1="620" x2="1600" y2="790" 
+              stroke="#FFFF00" stroke-width="220" stroke-linecap="butt" />
+
+        <line x1="750" y1="810" x2="750" y2="920" 
+              stroke="#FFFF00" stroke-width="220" stroke-linecap="butt" />
+
+        <line id="finish-line" x1="300" y1="520" x2="300" y2="680" 
+              stroke="#FF00FF" stroke-width="220" stroke-linecap="butt" 
+              style="display: none;" />
+              
+    </svg>
+
+    <script>
+        const btnFull = document.getElementById('btn-fullscreen');
+        const btnMag = document.getElementById('btn-magenta');
+        const finishLine = document.getElementById('finish-line');
+
+        btnFull.addEventListener('click', function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert(`Errore nell'avvio dello schermo intero: ${err.message}`);
+                });
+                btnFull.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                btnFull.style.display = 'inline-block';
+            }
+        });
+
+        btnMag.addEventListener('click', function() {
+            if (finishLine.style.display === 'none') {
+                finishLine.style.display = 'block';
+                btnMag.textContent = 'Rimuovi Traguardo (Magenta)';
+                btnMag.style.background = '#FFCCFF';
+            } else {
+                finishLine.style.display = 'none';
+                btnMag.textContent = 'Mostra Traguardo';
+                btnMag.style.background = '#FFFFFF';
+            }
+        });
+    </script>
+</body>
+</html>
