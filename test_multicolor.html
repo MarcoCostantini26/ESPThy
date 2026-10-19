@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ESPThy - Tracciato Multi-Colore Semantico</title>
+    <title>ESPThy - Semantic Multi-Color Track</title>
     <style>
         body, html { 
             margin: 0; 
@@ -43,8 +43,8 @@
 <body>
 
     <div id="controls">
-        <button id="btn-fullscreen" class="btn">Avvia a Schermo Intero</button>
-        <button id="btn-magenta" class="btn">Mostra Traguardo</button>
+        <button id="btn-fullscreen" class="btn">Start Fullscreen</button>
+        <button id="btn-magenta" class="btn">Show Finish Line</button>
     </div>
 
     <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet">
@@ -90,7 +90,7 @@
         btnFull.addEventListener('click', function() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
-                    alert(`Errore nell'avvio dello schermo intero: ${err.message}`);
+                    alert(`Error starting fullscreen: ${err.message}`);
                 });
                 btnFull.style.display = 'none';
             }
@@ -105,11 +105,11 @@
         btnMag.addEventListener('click', function() {
             if (finishLine.style.display === 'none') {
                 finishLine.style.display = 'block';
-                btnMag.textContent = 'Rimuovi Traguardo (Magenta)';
+                btnMag.textContent = 'Remove Finish Line (Magenta)';
                 btnMag.style.background = '#FFCCFF';
             } else {
                 finishLine.style.display = 'none';
-                btnMag.textContent = 'Mostra Traguardo';
+                btnMag.textContent = 'Show Finish Line';
                 btnMag.style.background = '#FFFFFF';
             }
         });
