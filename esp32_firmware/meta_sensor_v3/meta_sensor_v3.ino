@@ -34,13 +34,13 @@ uint8_t classifyColor(uint16_t r, uint16_t g, uint16_t b, uint16_t c) {
     int gn = (g * 100) / sum;
     int bn = (b * 100) / sum;
 
-    if (c > 180 && rn > 25 && rn < 40 && gn > 25 && gn < 40 && bn > 25 && bn < 40) {
+    if (c > 260 && rn >= 28 && rn <= 40 && gn >= 28 && gn <= 40 && bn >= 28 && bn <= 40) {
         return CMD_WHITE;
     }
-
-    if (rn > 32 && gn > 32 && bn < 24) return CMD_YELLOW;
-    if (gn > 30 && bn > 30 && rn < 24) return CMD_CYAN;
-    if (rn > 22 && bn > 35 && gn < 26) return CMD_MAGENTA;
+    
+    if (c > 120 && rn >= 32 && gn >= 32 && bn < 24) return CMD_YELLOW;
+    if (c > 120 && gn >= 30 && bn >= 30 && rn < 24) return CMD_CYAN;
+    if (c > 120 && rn >= 21 && bn >= 35 && gn < 26) return CMD_MAGENTA;
 
     if (rn > 42 && rn > gn && rn > bn) return CMD_RED;
     if (gn > 42 && gn > rn && gn > bn) return CMD_GREEN;
@@ -64,17 +64,15 @@ void loop() {
 
     uint8_t current_reading = classifyColor(r, g, b, c);
 
-    if (current_reading != 0) {
-        history[history_index] = current_reading;
-        history_index = (history_index + 1) % NUM_READINGS;
-    }
+    history[history_index] = current_reading;
+    history_index = (history_index + 1) % NUM_READINGS;
 
     uint8_t candidate_command = 0;
     uint8_t max_count = 0;
 
     for (int i = 0; i < NUM_READINGS; i++) {
         uint8_t cmd = history[i];
-        if (cmd == 0) continue;
+        if (cmd == 0) continue; 
         
         uint8_t count = 0;
         for (int j = 0; j < NUM_READINGS; j++) {
