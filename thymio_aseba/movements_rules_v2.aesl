@@ -10,43 +10,43 @@
 if rc5.command == 11 then
     # RED (Outer wall) -> Turn RIGHT
     call leds.top(32, 0, 0)
-    #motor.left.target = 80
-    #motor.right.target = -80
+    motor.left.target = 80
+    motor.right.target = -80
 elseif rc5.command == 22 then
     # GREEN (Standard track) -> Normal drive
     call leds.top(0, 32, 0)
-    #motor.left.target = 80
-    #motor.right.target = 80
+    motor.left.target = 80
+    motor.right.target = 80
 elseif rc5.command == 37 then
     # BLUE (Inner wall) -> Turn LEFT
     call leds.top(0, 0, 32)
-    #motor.left.target = -80
-    #motor.right.target = 80
+    motor.left.target = -80
+    motor.right.target = 80
 elseif rc5.command == 58 then
     # YELLOW (Pre-curve / Caution) -> Slow drive anti-overshooting
     call leds.top(32, 32, 0)
-    #motor.left.target = 45
-    #motor.right.target = 45
+    motor.left.target = 45
+    motor.right.target = 45
 elseif rc5.command == 19 then
     # CYAN (Safe straight) -> Fast drive (Boost)
     call leds.top(0, 32, 32)
-    #motor.left.target = 130
-    #motor.right.target = 130
+    motor.left.target = 130
+    motor.right.target = 130
 elseif rc5.command == 62 then
     # MAGENTA (Finish line / Event) -> Stop with Purple LEDs
     call leds.top(32, 0, 32)
-    #motor.left.target = 0
-    #motor.right.target = 0
+    motor.left.target = 0
+    motor.right.target = 0
 elseif rc5.command == 51 then
     # WHITE -> Reverse
     call leds.top(32, 32, 32)
-    #motor.left.target = -100
-    #motor.right.target = -100
+    motor.left.target = -100
+    motor.right.target = -100
 elseif rc5.command == 44 then
     # BLACK -> Stop
     call leds.top(0, 0, 0)
-    #motor.left.target = 0
-    #motor.right.target = 0
+    motor.left.target = 0
+    motor.right.target = 0
 end]]></node>
 
 
